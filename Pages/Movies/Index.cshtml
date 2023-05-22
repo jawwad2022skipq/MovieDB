@@ -1,0 +1,60 @@
+@* The "@page" Razor directive makes the file an MVC action, which means that it can handle requests. @page must be the first Razor directive on a page. *@
+@page
+@* The @model directive specifies the type of the model passed to the Razor Page. *@
+@model RazorPagesMovie.Pages_Movies.IndexModel
+
+@* Razor can transition from HTML into C# or into Razor-specific markup. When an @ symbol is followed by a Razor reserved keyword, it transitions into Razor-specific markup, otherwise it transitions into C#.*@
+@* The PageModel base class contains a ViewData dictionary property that can be used to pass data to a View. Objects are added to the ViewData dictionary using a key value pattern. *@
+@* Here is an example of Razor transitioning into C#. The { and } characters enclose a block of C# code where the Title property is added to the ViewData dictionary. *@
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @* The DisplayNameFor HTML Helper inspects the Title property referenced in the lambda expression to determine the display name which can be different from the property name. *@
+            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Movie) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
